@@ -3,32 +3,32 @@ from django.contrib.gis.db.models.functions import Distance
 from .models import *
 from django.contrib.gis.geos import Point
 from .forms import RestaurantRegForm
-from ip2geotools.databases.noncommercial import DbIpCity
-import socket
-hostname = socket.gethostname()
-ipaddr = socket.gethostbyname(hostname)
-
-
-r = DbIpCity.get('157.38.4.207', api_key='free')
-
-
-longitude = r.longitude
-latitude = r.latitude
-print(longitude, latitude)
-user_location = Point(longitude, latitude, srid=4326)
+import googlemaps
+gmps = googlemaps.Client(key='AIzaSyC43U2-wqXxYEk1RBrTLdkYt3aDoOxO4Fw')
 
 
 def home(request):
-    user_city = r.city
-    queryset = RestaurantReg.objects.annotate(distance=Distance('restaurant_location',
-                                                                user_location)/1000
-                                              ).order_by('distance')[0:6]
+    if request.method == "GET":
+        r = request.GET.get('locationsearch')
+        print(r)
+        geocode_result = gmps.geocode('thana rajaji rajgarh')
+        for i in geocode_result:
+            add = i['formatted_address']
+            print(add)
+            x = i['geometry']
+            y = x['location']
+            lat = y['lat']
+            lon = y['lng']
+            print(lat, lon)
+        user_location = Point(lon, lat, srid=4326)
+        user_city = add
+        queryset = RestaurantReg.objects.annotate(distance=Distance('restaurant_location',
+                                                                    user_location)/1000
+                                                  ).order_by('distance')[0:6]
+        return render(request, 'frontend/base.htm',  {'queryset': queryset, 'user_city': user_city})
 
-    for query in queryset:
-        dist = query.distance
-        if dist <= 861:
-            print(query)
-    return render(request, 'frontend/base.htm',  {'queryset': queryset, 'user_city': user_city})
+    else:
+        return render(request, 'frontend/base.htm')
 
 
 def addrestaurant(request):
@@ -47,3 +47,6 @@ def addrestaurant(request):
     else:
         form = RestaurantRegForm()
     return render(request, 'frontend/addrestaurant.htm', {'form': form})
+
+
+api_key = 'AIzaSyDo19usvpLpA6NqavX9_srpMsPqQonJdec'

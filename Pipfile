@@ -9,6 +9,7 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 geoip2 = "*"
 ip2geotools = "*"
+googlemaps = "*"
 
 [dev-packages]
 autopep8 = "*"
