@@ -20,7 +20,7 @@ class RestaurantRegForm(forms.ModelForm):
         }
         widgets = {
             'restaurant_name': forms.TextInput(attrs={'type': 'text', 'autocomplete': "off", 'class': 'form-control'}),
-            'restaurant_location': forms.OSMWidget(attrs={'map_width': 800, 'map_height': 500, 'class': 'form-control', }),
+            'restaurant_location': forms.OSMWidget(attrs={'map_width': 500, 'map_height': 500, 'class': 'form-control', }),
             'restaurant_number': forms.TextInput(attrs={'type': 'number', 'autocomplete': "off",  'class': 'form-control', 'placeholder': 'Please Enter  Number here', 'required': True}),
             'restaurant_address': forms.Textarea(attrs={'type': 'text', 'autocomplete': "off", 'class': 'form-control', 'rows': '3', 'cols': '3'}),
             'restaurant_city': forms.TextInput(attrs={'type': 'text', 'autocomplete': "off", 'class': 'form-control'}),
