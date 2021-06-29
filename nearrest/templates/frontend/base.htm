@@ -12,13 +12,28 @@
   </head>
   <body>
     <div class="bg-primary"><a href="{% url 'addrestaurant' %}"><button class="btn btn-dark"> Add New Restaurant</button></a> </div>
-    <ul>
-      restaurant near by you
-      {% for i in queryset %}
-      <li>restaurant_name :{{i.restaurant_name}}</li>
-      <li>{{i.distance}}</li>
-      {% endfor %}
-    </ul>
+    <div class="container">
+      <hr>
+      <div class="mb-3">
+        <label for="locationsearch" class="form-label">Search Location</label>
+        <input type="text" class="form-control" id="locationsearch" placeholder="search here">
+      </div>
+      <div>
+        <button class="btn btn-success">Submit</button>
+      </div>
+      <ul>
+        <h1>restaurant at near you</h1>
+        <h2 class="text-info text-uppercase">Your City is :: {{user_city}}</h2>
+     
+        {% for i in queryset %}
+          <li>restaurant_name :{{i.restaurant_name}}</li>
+          <li>distance {{i.distance }} km</li>
+          <hr class="sm-2">
+        {% endfor %}
+    
+       
+      </ul>  
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
 </html>
