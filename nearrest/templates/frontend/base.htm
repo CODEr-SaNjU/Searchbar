@@ -16,8 +16,13 @@
     <div class="container">
       <hr>
       <div class="mb-3">
-        <label for="locationsearch" class="form-label">Search Location</label>
-        <input type="text" class="form-control" id="locationsearch" placeholder="search here">
+        <form method="POST" action="">
+          {% csrf_token %}
+          <label for="locationsearch" class="form-label">Search Location</label>
+          <input type="text" class="form-control" name="locationsearch" id="locationsearch" placeholder="search here">
+          <br>
+          <button type="submit" class="btn btn-success">search restaurant</button>
+        </form>
       </div>
       <ul>
         <h1>restaurant in 2 km range</h1>
@@ -59,9 +64,10 @@ $(document).ready(function () {
   });
   google.maps.event.addListener(autocomplete, 'place_changed', function () {
     var near_place = autocomplete.getPlace();
-
-    console.log(near_place.geometry.location.lat())
-    console.log(near_place.geometry.location.lng())
+    var lattitude = near_place.geometry.location.lat()
+    var lng = near_place.geometry.location.lng()
+    console.log(lattitude)
+    console.log(lng)
   });
 });
 

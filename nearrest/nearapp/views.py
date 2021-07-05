@@ -8,10 +8,9 @@ gmps = googlemaps.Client(key='AIzaSyC43U2-wqXxYEk1RBrTLdkYt3aDoOxO4Fw')
 
 
 def home(request):
-    if request.method == "GET":
-        r = request.GET.get('locationsearch')
-        print(r)
-        geocode_result = gmps.geocode('thana rajaji rajgarh')
+    if request.method == "POST":
+        r = request.POST['locationsearch']
+        geocode_result = gmps.geocode(r)
         for i in geocode_result:
             add = i['formatted_address']
             print(add)
@@ -24,7 +23,7 @@ def home(request):
         user_city = add
         queryset = RestaurantReg.objects.annotate(distance=Distance('restaurant_location',
                                                                     user_location)/1000
-                                                  ).order_by('distance')[0:6]
+                                                ).order_by('distance')[0:6]
         return render(request, 'frontend/base.htm',  {'queryset': queryset, 'user_city': user_city})
 
     else:
